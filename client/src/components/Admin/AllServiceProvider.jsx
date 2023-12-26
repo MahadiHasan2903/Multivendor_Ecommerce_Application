@@ -68,12 +68,6 @@ const AllServiceProvider = () => {
       minWidth: 130,
       flex: 1,
     },
-    // {
-    //   field: "totalTransportedOrder",
-    //   headerName: "Total Delivery",
-    //   minWidth: 130,
-    //   flex: 1,
-    // },
 
     {
       field: "joinedAt",

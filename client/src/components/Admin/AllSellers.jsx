@@ -32,7 +32,7 @@ const AllSellers = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Seller ID", minWidth: 150, flex: 0.7 },
+    // { field: "id", headerName: "Seller ID", minWidth: 150, flex: 0.7 },
 
     {
       field: "name",

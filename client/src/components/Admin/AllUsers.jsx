@@ -31,7 +31,7 @@ const AllUsers = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "User ID", minWidth: 150, flex: 0.7 },
+    // { field: "id", headerName: "User ID", minWidth: 150, flex: 0.7 },
 
     {
       field: "name",
@@ -73,7 +73,7 @@ const AllUsers = () => {
         return (
           <>
             <Button onClick={() => setUserId(params.id) || setOpen(true)}>
-              <AiOutlineDelete size={20} />
+              <AiOutlineDelete size={20} color="ff0000" />
             </Button>
           </>
         );

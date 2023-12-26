@@ -58,6 +58,39 @@ export const eventReducer = createReducer(initialState, {
     state.error = action.payload;
   },
 
+  //Get single event
+  getEventByIdRequest: (state) => {
+    state.isLoading = true;
+    state.event = null;
+    state.error = null;
+  },
+  getEventByIdSuccess: (state, action) => {
+    state.isLoading = false;
+    state.event = action.payload;
+    state.success = true;
+  },
+  getEventByIdFailed: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+    state.success = false;
+  },
+
+  //Update event
+  updateEventRequest: (state) => {
+    state.isLoading = true;
+    state.error = null;
+  },
+  updateEventSuccess: (state, action) => {
+    state.isLoading = false;
+    state.event = action.payload;
+    state.success = true;
+  },
+  updateEventFailed: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+    state.success = false;
+  },
+
   clearErrors: (state) => {
     state.error = null;
   },

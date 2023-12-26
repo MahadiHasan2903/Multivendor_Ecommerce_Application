@@ -90,3 +90,54 @@ export const getAllEvents = () => async (dispatch) => {
     });
   }
 };
+
+// Get single product by ID
+export const getEventById = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getEventByIdRequest",
+    });
+
+    console.log("Requesting event data...");
+
+    const { data } = await axios.get(`${server}/event/get-event/${id}`);
+
+    console.log("Received event data:", data);
+
+    dispatch({
+      type: "getEventByIdSuccess",
+      payload: data.event,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getEventByIdFailed",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Update product by ID
+export const updateEvent = (id, updates) => async (dispatch) => {
+  try {
+    console.log("Updated Event ID:", id);
+    console.log("Updated Event details:", updates);
+    dispatch({
+      type: "updateEventRequest",
+    });
+
+    const { data } = await axios.put(
+      `${server}/event/update-event/${id}`,
+      updates
+    );
+
+    dispatch({
+      type: "updateEventSuccess",
+      payload: data.event,
+    });
+  } catch (error) {
+    dispatch({
+      type: "updateEventFailed",
+      payload: error.response.data.message,
+    });
+  }
+};

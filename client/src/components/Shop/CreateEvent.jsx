@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { categoriesData } from "../../data/data";
 import { toast } from "react-toastify";
 import { createEvent } from "../../redux/actions/eventAction";
 
 const CreateEvent = () => {
-  const { seller } = useSelector((state) => state.seller);
-  const { success, error } = useSelector((state) => state.events);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { seller } = useSelector((state) => state.seller);
 
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
@@ -46,17 +43,6 @@ const CreateEvent = () => {
         .slice(0, 10)
     : "";
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-    if (success) {
-      toast.success("Event created successfully!");
-      navigate("/dashboard-events");
-      window.location.reload();
-    }
-  }, [dispatch, error, success]);
-
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
@@ -74,7 +60,7 @@ const CreateEvent = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newForm = new FormData();
@@ -82,6 +68,7 @@ const CreateEvent = () => {
     images.forEach((image) => {
       newForm.append("images", image);
     });
+
     const data = {
       name,
       description,
@@ -95,7 +82,24 @@ const CreateEvent = () => {
       start_Date: startDate?.toISOString(),
       Finish_Date: endDate?.toISOString(),
     };
-    dispatch(createEvent(data));
+
+    try {
+      await dispatch(createEvent(data));
+      setImages([]);
+      setName("");
+      setDescription("");
+      setCategory("");
+      setTags("");
+      setOriginalPrice("");
+      setDiscountPrice("");
+      setStock("");
+      setStartDate(null);
+      setEndDate(null);
+
+      toast.success("Event created successfully!");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (

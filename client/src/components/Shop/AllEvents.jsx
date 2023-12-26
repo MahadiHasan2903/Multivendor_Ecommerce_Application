@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
@@ -6,16 +6,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteEvent, getAllEventsShop } from "../../redux/actions/eventAction";
 import Loader from "../Layout/Loader";
+import UpdateEvent from "./UpdateEvent";
+import { FaRegEdit } from "react-icons/fa";
 
 const AllEvents = () => {
+  const dispatch = useDispatch();
   const { events, isLoading } = useSelector((state) => state.events);
   const { seller } = useSelector((state) => state.seller);
-
-  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState(null);
 
   useEffect(() => {
     dispatch(getAllEventsShop(seller._id));
   }, [dispatch]);
+
+  const toggleEditForm = (productId) => {
+    setOpen(!open);
+    setSelectedEventId(productId);
+  };
 
   const handleDelete = (id) => {
     dispatch(deleteEvent(id));
@@ -70,6 +78,23 @@ const AllEvents = () => {
       },
     },
     {
+      field: "Edit",
+      flex: 0.6,
+      minWidth: 100,
+      headerName: "Edit",
+      type: "number",
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Button onClick={() => toggleEditForm(params.id)}>
+              <FaRegEdit size={20} />
+            </Button>
+          </>
+        );
+      },
+    },
+    {
       headerName: "Delete",
       field: "Delete",
       flex: 0.8,
@@ -106,7 +131,7 @@ const AllEvents = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full pt-1 mx-8 mt-10 bg-white">
+        <div className="w-full p-3 mx-8 mt-10 bg-white">
           <DataGrid
             rows={row}
             columns={columns}
@@ -114,6 +139,11 @@ const AllEvents = () => {
             disableRowSelectionOnClick
             autoHeight
           />
+          {open && selectedEventId && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center w-full bg-transparent mt-[50px]">
+              <UpdateEvent setOpen={setOpen} eventId={selectedEventId} />
+            </div>
+          )}
         </div>
       )}
     </>

@@ -27,7 +27,7 @@ const AllWithdraw = () => {
   }, []);
 
   const columns = [
-    { field: "id", headerName: "Withdraw Id", minWidth: 150, flex: 0.7 },
+    // { field: "id", headerName: "Withdraw Id", minWidth: 150, flex: 0.7 },
     {
       field: "name",
       headerName: "Shop Name",

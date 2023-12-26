@@ -142,4 +142,65 @@ router.get(
   })
 );
 
+//get single event
+router.get(
+  "/get-event/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const eventId = req.params.id;
+      const event = await Event.findById(eventId);
+
+      if (!event) {
+        return next(new ErrorHandler("Event not found", 404));
+      }
+
+      res.status(200).json({
+        success: true,
+        event,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+// Update event by ID
+router.put(
+  "/update-event/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const eventId = req.params.id;
+      const updates = req.body;
+
+      console.log("Event ID:", eventId);
+      console.log("Updates:", updates);
+
+      const event = await Event.findById(eventId);
+
+      if (!event) {
+        console.log("Event not found");
+        return next(new ErrorHandler("Event not found", 404));
+      }
+
+      // Update each field individually
+      for (let key in updates) {
+        event[key] = updates[key];
+      }
+
+      console.log("Updated Event:", event);
+
+      await event.save();
+
+      res.status(200).json({
+        success: true,
+        message: "Event updated successfully!",
+        event,
+      });
+    } catch (error) {
+      console.log("Error:", error);
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
 module.exports = router;

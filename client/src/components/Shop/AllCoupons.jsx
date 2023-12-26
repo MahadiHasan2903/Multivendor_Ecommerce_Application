@@ -124,7 +124,7 @@ const AllCoupons = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full pt-1 mx-8 mt-10 bg-white">
+        <div className="w-full p-3 mx-8 mt-10 bg-white">
           <div className="flex justify-end w-full">
             <div
               className={`${styles.button} !w-max !h-[45px] px-3 !rounded-[5px] mr-3 mb-3`}
