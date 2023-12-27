@@ -18,6 +18,7 @@ import { Button } from "@mui/material";
 const OrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
   const { seller } = useSelector((state) => state.seller);
+  const [showAssignColumn, setShowAssignColumn] = useState(true);
   const { serviceProviders } = useSelector((state) => state.serviceProvider);
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
@@ -86,6 +87,7 @@ const OrderDetails = () => {
       if (response.data.success) {
         toast.success("Order assigned to the service provider");
         dispatch(transporterAssignedOrderStatus(orderId, serviceProviderId));
+        setShowAssignColumn(false);
       } else {
         toast.error("Failed to assign order");
       }
@@ -106,9 +108,11 @@ const OrderDetails = () => {
       renderCell: (params) => {
         return (
           <>
-            <Button onClick={() => handleAssignOrder(params.id, id)}>
-              <FaUserPlus size={20} />
-            </Button>
+            {showAssignColumn && (
+              <Button onClick={() => handleAssignOrder(params.id, id)}>
+                <FaUserPlus size={20} />
+              </Button>
+            )}
           </>
         );
       },
