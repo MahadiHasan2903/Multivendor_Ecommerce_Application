@@ -9,6 +9,7 @@ import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
+import ReportGenerator from "../ReportGenerator";
 
 const AllUsers = () => {
   const dispatch = useDispatch();
@@ -81,25 +82,27 @@ const AllUsers = () => {
     },
   ];
 
-  const row = [];
-  users &&
-    users.forEach((item) => {
-      row.push({
-        id: item._id,
-        name: item.name,
-        email: item.email,
-        role: item.role,
-        joinedAt: item.createdAt.slice(0, 10),
-      });
-    });
+  const rows =
+    users?.map((item) => ({
+      id: item._id,
+      name: item.name,
+      email: item.email,
+      role: item.role,
+      joinedAt: item.createdAt.slice(0, 10),
+    })) || [];
 
   return (
     <div className="flex justify-center w-full pt-5">
       <div className="w-[97%]">
         <h3 className="text-[22px] font-Poppins pb-2">All Users</h3>
         <div className="w-full min-h-[45vh] bg-white rounded">
+          <ReportGenerator
+            data={rows}
+            reportTitle="All Sellers Report"
+            columns={columns}
+          />
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick

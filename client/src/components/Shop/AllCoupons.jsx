@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -107,17 +107,13 @@ const AllCoupons = () => {
     },
   ];
 
-  const row = [];
-
-  coupouns &&
-    coupouns.forEach((item) => {
-      row.push({
-        id: item._id,
-        name: item.name,
-        price: item.value + " %",
-        sold: 10,
-      });
-    });
+  const rows =
+    coupouns?.map((item) => ({
+      id: item._id,
+      name: item.name,
+      price: item.value + " %",
+      sold: 10,
+    })) || [];
 
   return (
     <>
@@ -134,7 +130,7 @@ const AllCoupons = () => {
             </div>
           </div>
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick

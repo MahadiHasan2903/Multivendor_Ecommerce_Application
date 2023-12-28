@@ -11,6 +11,7 @@ import {
 import Loader from "../Layout/Loader";
 import { FaRegEdit } from "react-icons/fa";
 import UpdateProduct from "./UpdateProduct";
+import ReportGenerator from "../ReportGenerator";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const AllProducts = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Product Id", minWidth: 150, flex: 0.7 },
+    // { field: "id", headerName: "Product Id", minWidth: 150, flex: 0.7 },
     {
       field: "name",
       headerName: "Name",
@@ -132,6 +133,11 @@ const AllProducts = () => {
         <Loader />
       ) : (
         <div className="relative w-full p-3 mx-8 mt-10 bg-white ">
+          <ReportGenerator
+            data={rows}
+            reportTitle="Products Report"
+            columns={columns}
+          />
           <DataGrid
             rows={rows}
             columns={columns}

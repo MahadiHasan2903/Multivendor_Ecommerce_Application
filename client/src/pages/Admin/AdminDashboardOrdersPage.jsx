@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import AdminSideBar from "../../components/Admin/Layout/AdminSideBar";
 import AdminHeader from "../../components/Admin/Layout/AdminHeader";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfAdmin } from "../../redux/actions/orderAction";
+import ReportGenerator from "../../components/ReportGenerator";
 
 const AdminDashboardOrdersPage = () => {
   const dispatch = useDispatch();
@@ -131,7 +132,7 @@ const AdminDashboardOrdersPage = () => {
     },
   ];
 
-  const row = [];
+  const rows = [];
   adminOrders &&
     adminOrders.forEach((item) => {
       // Extracting IDs from adminOrders
@@ -142,7 +143,7 @@ const AdminDashboardOrdersPage = () => {
       const transporter = transporters[assignedTransporterId];
       const deliveryman = deliverymen[assignedDeliverymanId];
 
-      row.push({
+      rows.push({
         id: item._id,
         itemsQty: item?.cart?.reduce((acc, item) => acc + item.qty, 0),
         total: item?.totalPrice + " $",
@@ -164,8 +165,13 @@ const AdminDashboardOrdersPage = () => {
 
           <div className="w-full min-h-[45vh] pt-5 rounded flex justify-center">
             <div className="w-full pt-1 mx-8 mt-10 bg-white">
+              <ReportGenerator
+                data={rows}
+                reportTitle="All Orders Report"
+                columns={columns}
+              />
               <DataGrid
-                rows={row}
+                rows={rows}
                 columns={columns}
                 pageSize={10}
                 disableSelectionOnClick

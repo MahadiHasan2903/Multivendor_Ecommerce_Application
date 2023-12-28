@@ -8,6 +8,7 @@ import { deleteEvent, getAllEventsShop } from "../../redux/actions/eventAction";
 import Loader from "../Layout/Loader";
 import UpdateEvent from "./UpdateEvent";
 import { FaRegEdit } from "react-icons/fa";
+import ReportGenerator from "../ReportGenerator";
 
 const AllEvents = () => {
   const dispatch = useDispatch();
@@ -113,18 +114,14 @@ const AllEvents = () => {
     },
   ];
 
-  const row = [];
-
-  events &&
-    events.forEach((item) => {
-      row.push({
-        id: item._id,
-        name: item.name,
-        price: "US$ " + item.discountPrice,
-        Stock: item.stock,
-        sold: item.sold_out,
-      });
-    });
+  const rows =
+    events?.map((item) => ({
+      id: item._id,
+      name: item.name,
+      price: `US$ ${item.discountPrice}`,
+      Stock: item.stock,
+      sold: item.sold_out,
+    })) || [];
 
   return (
     <>
@@ -132,8 +129,13 @@ const AllEvents = () => {
         <Loader />
       ) : (
         <div className="w-full p-3 mx-8 mt-10 bg-white">
+          <ReportGenerator
+            data={rows}
+            reportTitle="Events Report"
+            columns={columns}
+          />
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick

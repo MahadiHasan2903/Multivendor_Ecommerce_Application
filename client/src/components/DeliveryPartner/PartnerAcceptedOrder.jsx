@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
+import ReportGenerator from "../ReportGenerator";
 
 const PartnerAcceptedOrder = () => {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const PartnerAcceptedOrder = () => {
     },
   ];
 
-  const row = acceptedOrders
+  const rows = acceptedOrders
     ? acceptedOrders.map((order) => ({
         id: order._id,
         productName: order.cart[0].name,
@@ -89,9 +90,14 @@ const PartnerAcceptedOrder = () => {
     <div className="flex justify-center w-full pt-5">
       <div className="w-[97%]">
         <h3 className="text-[22px] font-Poppins pb-2">All Accepted Orders</h3>
-        <div className="w-full min-h-[45vh] bg-white rounded">
+        <div className="w-full min-h-[45vh] bg-white rounded p-3">
+          <ReportGenerator
+            data={rows}
+            reportTitle="All Accepted Orders Report"
+            columns={columns}
+          />
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick

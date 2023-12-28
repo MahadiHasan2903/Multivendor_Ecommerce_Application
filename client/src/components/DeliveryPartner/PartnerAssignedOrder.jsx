@@ -12,6 +12,7 @@ import { MdDownloadDone } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import styles from "../../styles/styles";
 import { toast } from "react-toastify";
+import ReportGenerator from "../ReportGenerator";
 
 const PartnerAssignedOrder = () => {
   const [open, setOpen] = useState(false);
@@ -118,7 +119,7 @@ const PartnerAssignedOrder = () => {
     },
   ];
 
-  const row = assignedOrders
+  const rows = assignedOrders
     ? assignedOrders.map((order) => ({
         id: order._id,
         productName: order.cart[0].name,
@@ -137,9 +138,14 @@ const PartnerAssignedOrder = () => {
     <div className="flex justify-center w-full pt-5">
       <div className="w-[97%]">
         <h3 className="text-[22px] font-Poppins pb-2">All Assigned Order</h3>
-        <div className="w-full min-h-[45vh] bg-white rounded">
+        <div className="w-full min-h-[45vh] bg-white rounded p-3">
+          <ReportGenerator
+            data={rows}
+            reportTitle="All Accepted Orders Report"
+            columns={columns}
+          />
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={updatedColumns}
             pageSize={10}
             disableSelectionOnClick

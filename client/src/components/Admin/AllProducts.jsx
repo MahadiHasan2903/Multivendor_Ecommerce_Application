@@ -6,6 +6,7 @@ import axios from "axios";
 import { server } from "../../server";
 import { useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
+import ReportGenerator from "../ReportGenerator";
 
 const AllProducts = () => {
   const [data, setData] = useState([]);
@@ -68,24 +69,25 @@ const AllProducts = () => {
     },
   ];
 
-  const row = [];
-
-  data &&
-    data.forEach((item) => {
-      row.push({
-        id: item._id,
-        name: item.name,
-        price: "US$ " + item.discountPrice,
-        Stock: item.stock,
-        sold: item?.sold_out,
-      });
-    });
+  const rows =
+    data?.map((item) => ({
+      id: item._id,
+      name: item.name,
+      price: `US$ ${item.discountPrice}`,
+      Stock: item.stock,
+      sold: item?.sold_out,
+    })) || [];
 
   return (
     <>
       <div className="w-full pt-1 mx-8 mt-10 bg-white h-[80vh] overflow-y-scroll">
+        <ReportGenerator
+          data={rows}
+          reportTitle="All Products Report"
+          columns={columns}
+        />
         <DataGrid
-          rows={row}
+          rows={rows}
           columns={columns}
           pageSize={10}
           disableSelectionOnClick

@@ -10,6 +10,7 @@ import { getAllSellers } from "../../redux/actions/sellerAction";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
+import ReportGenerator from "../ReportGenerator";
 
 const AllSellers = () => {
   const dispatch = useDispatch();
@@ -100,25 +101,27 @@ const AllSellers = () => {
     },
   ];
 
-  const row = [];
-  sellers &&
-    sellers.forEach((item) => {
-      row.push({
-        id: item._id,
-        name: item?.name,
-        email: item?.email,
-        joinedAt: item.createdAt.slice(0, 10),
-        address: item.address,
-      });
-    });
+  const rows =
+    sellers?.map((item) => ({
+      id: item._id,
+      name: item?.name,
+      email: item?.email,
+      joinedAt: item.createdAt?.slice(0, 10),
+      address: item.address,
+    })) || [];
 
   return (
     <div className="flex justify-center w-full pt-5">
       <div className="w-[97%]">
         <h3 className="text-[22px] font-Poppins pb-2">All Users</h3>
         <div className="w-full min-h-[45vh] bg-white rounded">
+          <ReportGenerator
+            data={rows}
+            reportTitle="All Sellers Report"
+            columns={columns}
+          />
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick

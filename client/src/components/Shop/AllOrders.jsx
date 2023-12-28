@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Loader from "../Layout/Loader";
 import { getAllOrdersOfShop } from "../../redux/actions/orderAction";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import ReportGenerator from "../ReportGenerator";
 
 const AllOrders = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
@@ -18,7 +19,7 @@ const AllOrders = () => {
   }, [dispatch]);
 
   const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+    // { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
     {
       field: "status",
@@ -67,17 +68,13 @@ const AllOrders = () => {
     },
   ];
 
-  const row = [];
-
-  orders &&
-    orders.forEach((item) => {
-      row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
-        status: item.status,
-      });
-    });
+  const rows =
+    orders?.map((item) => ({
+      id: item._id,
+      itemsQty: item.cart.length,
+      total: `US$ ${item.totalPrice}`,
+      status: item.status,
+    })) || [];
 
   return (
     <>
@@ -85,8 +82,13 @@ const AllOrders = () => {
         <Loader />
       ) : (
         <div className="w-full p-3 mx-8 mt-10 bg-white">
+          <ReportGenerator
+            data={rows}
+            reportTitle="Orders Report"
+            columns={columns}
+          />
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSize={5}
             disableRowSelectionOnClick

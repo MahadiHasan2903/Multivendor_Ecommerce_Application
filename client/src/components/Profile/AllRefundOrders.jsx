@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
@@ -67,22 +67,18 @@ const AllRefundOrders = () => {
     },
   ];
 
-  const row = [];
-
-  eligibleOrders &&
-    eligibleOrders.forEach((item) => {
-      row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
-        status: item.status,
-      });
-    });
+  const rows =
+    eligibleOrders?.map((item) => ({
+      id: item._id,
+      itemsQty: item.cart.length,
+      total: `US$ ${item.totalPrice}`,
+      status: item.status,
+    })) || [];
 
   return (
     <div className="pt-1 pl-8">
       <DataGrid
-        rows={row}
+        rows={rows}
         columns={columns}
         pageSize={10}
         autoHeight

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -64,22 +64,18 @@ const AllOrders = () => {
     },
   ];
 
-  const row = [];
-
-  orders &&
-    orders.forEach((item) => {
-      row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
-        status: item.status,
-      });
-    });
+  const rows =
+    orders?.map((item) => ({
+      id: item._id,
+      itemsQty: item.cart.length,
+      total: `US$ ${item.totalPrice}`,
+      status: item.status,
+    })) || [];
 
   return (
     <div className="pt-1 pl-8">
       <DataGrid
-        rows={row}
+        rows={rows}
         columns={columns}
         pageSize={10}
         disableRowSelectionOnClick

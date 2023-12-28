@@ -10,6 +10,7 @@ import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 import { getAllServiceProviders } from "../../redux/actions/serviceProviderAction";
+import ReportGenerator from "../ReportGenerator";
 
 const AllServiceProvider = () => {
   const dispatch = useDispatch();
@@ -96,34 +97,29 @@ const AllServiceProvider = () => {
     },
   ];
 
-  const row = [];
-  serviceProviders &&
-    serviceProviders.forEach((item) => {
-      // const totalTransportedOrder = item.transportedOrder
-      //   ? item.transportedOrder.length
-      //   : 0;
+  const rows =
+    serviceProviders?.map((item) => ({
+      id: item._id,
+      name: item.name,
+      address: item.address,
+      phoneNumber: item.phoneNumber,
+      email: item.email,
+      role: item.role,
+      joinedAt: item.createdAt ? item.createdAt.slice(0, 10) : "",
+    })) || [];
 
-      // Check if item.createdAt exists and is not undefined
-      const createdAtDate = item.createdAt ? item.createdAt.slice(0, 10) : "";
-
-      row.push({
-        id: item._id,
-        name: item.name,
-        address: item.address,
-        phoneNumber: item.phoneNumber,
-        email: item.email,
-        role: item.role,
-        // totalTransportedOrder,
-        joinedAt: createdAtDate,
-      });
-    });
   return (
     <div className="flex justify-center w-full pt-5">
       <div className="w-[97%]">
         <h3 className="text-[22px] font-Poppins pb-2">All Delivery Partners</h3>
         <div className="w-full min-h-[45vh] bg-white rounded">
+          <ReportGenerator
+            data={rows}
+            reportTitle="All Delivery Partners Report"
+            columns={columns}
+          />
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick

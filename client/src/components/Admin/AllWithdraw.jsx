@@ -6,6 +6,7 @@ import { RxCross1 } from "react-icons/rx";
 import styles from "../../styles/styles";
 import { toast } from "react-toastify";
 import axios from "axios";
+import ReportGenerator from "../ReportGenerator";
 
 const AllWithdraw = () => {
   const [data, setData] = useState([]);
@@ -96,24 +97,26 @@ const AllWithdraw = () => {
       });
   };
 
-  const row = [];
+  const rows =
+    data?.map((item) => ({
+      id: item._id,
+      shopId: item.seller?._id || "",
+      name: item.seller?.name || "",
+      amount: `US$ ${item.amount}`,
+      status: item.status,
+      createdAt: item.createdAt.slice(0, 10),
+    })) || [];
 
-  data &&
-    data.forEach((item) => {
-      row.push({
-        id: item._id,
-        shopId: item.seller._id,
-        name: item.seller.name,
-        amount: "US$ " + item.amount,
-        status: item.status,
-        createdAt: item.createdAt.slice(0, 10),
-      });
-    });
   return (
     <div className="flex items-center justify-center w-full pt-5">
       <div className="w-[95%] bg-white">
+        <ReportGenerator
+          data={rows}
+          reportTitle="All Withdrawal Report"
+          columns={columns}
+        />
         <DataGrid
-          rows={row}
+          rows={rows}
           columns={columns}
           pageSize={10}
           disableSelectionOnClick
