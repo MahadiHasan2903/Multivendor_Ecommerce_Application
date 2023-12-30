@@ -15,13 +15,21 @@ const ReportGenerator = ({ data, reportTitle, columns }) => {
     doc.setFontSize(10);
     doc.text(`Report Generated Date: ${currentDate}`, 130, 10);
 
-    // Extract column headers from columns array
-    const tableHeaders = columns.map((col) => col.headerName);
+    // Filter out specific headers like 'Edit', 'Preview', 'Delete'
+    const filteredHeaders = columns
+      .filter((col) => !["Edit", "Preview", "Delete"].includes(col.headerName))
+      .map((col) => col.headerName);
 
     // Add table content using autoTable
     doc.autoTable({
-      head: [tableHeaders],
-      body: data.map((row) => columns.map((col) => row[col.field])),
+      head: [filteredHeaders],
+      body: data.map((row) =>
+        columns
+          .filter(
+            (col) => !["Edit", "Preview", "Delete"].includes(col.headerName)
+          )
+          .map((col) => row[col.field])
+      ),
     });
 
     // Save the PDF
@@ -29,7 +37,7 @@ const ReportGenerator = ({ data, reportTitle, columns }) => {
   };
 
   return (
-    <div className="flex justify-start w-full ">
+    <div className="flex justify-start w-full">
       <div
         className={`${styles.button} !w-max !h-[45px] px-3 !rounded-[5px] mx-3 mb-3`}
         onClick={generatePdf}

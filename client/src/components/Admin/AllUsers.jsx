@@ -67,7 +67,7 @@ const AllUsers = () => {
       field: " ",
       flex: 1,
       minWidth: 150,
-      headerName: "Delete User",
+      headerName: "Delete",
       type: "number",
       sortable: false,
       renderCell: (params) => {

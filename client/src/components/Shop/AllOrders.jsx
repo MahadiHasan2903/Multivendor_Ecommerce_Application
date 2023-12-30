@@ -48,10 +48,10 @@ const AllOrders = () => {
     },
 
     {
-      field: " ",
+      field: "preview",
+      headerName: "Preview",
       flex: 1,
       minWidth: 150,
-      headerName: "",
       type: "number",
       sortable: false,
       renderCell: (params) => {

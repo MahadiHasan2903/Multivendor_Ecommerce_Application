@@ -82,7 +82,7 @@ const AllServiceProvider = () => {
       field: " ",
       flex: 1,
       minWidth: 50,
-      headerName: "Delete User",
+      headerName: "Delete",
       type: "number",
       sortable: false,
       renderCell: (params) => {

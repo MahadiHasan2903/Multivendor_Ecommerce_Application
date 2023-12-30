@@ -67,7 +67,7 @@ const AllSellers = () => {
       field: "  ",
       flex: 1,
       minWidth: 150,
-      headerName: "Preview Shop",
+      headerName: "",
       type: "number",
       sortable: false,
       renderCell: (params) => {
@@ -86,7 +86,7 @@ const AllSellers = () => {
       field: " ",
       flex: 1,
       minWidth: 150,
-      headerName: "Delete Seller",
+      headerName: "Delete",
       type: "number",
       sortable: false,
       renderCell: (params) => {
