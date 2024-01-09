@@ -10,6 +10,7 @@ import ReportGenerator from "../ReportGenerator";
 
 const AllOrders = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
+  console.log(orders);
   const { seller } = useSelector((state) => state.seller);
 
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const AllOrders = () => {
   const rows =
     orders?.map((item) => ({
       id: item._id,
-      itemsQty: item.cart.length,
+      itemsQty: item.cart.reduce((acc, cartItem) => acc + cartItem.qty, 0),
       total: `US$ ${item.totalPrice}`,
       status: item.status,
     })) || [];
