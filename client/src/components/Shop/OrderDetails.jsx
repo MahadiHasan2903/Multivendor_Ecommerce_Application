@@ -96,6 +96,19 @@ const OrderDetails = () => {
     }
   };
 
+  const calculateTotalPrice = () => {
+    if (!data || !data.cart) return 0;
+
+    const totalPrice = data.cart
+      .map((item) => item.discountPrice * item.qty)
+      .reduce((acc, curr) => acc + curr, 0);
+
+    return totalPrice;
+  };
+
+  // Use the calculated total price
+  const totalPrice = calculateTotalPrice();
+
   const columns = [
     { field: "name", headerName: "Transporter Name", flex: 1 },
     { field: "email", headerName: "Email", flex: 1 },
@@ -177,7 +190,7 @@ const OrderDetails = () => {
 
         <div className="w-full text-right border-t">
           <h5 className="pt-3 text-[18px]">
-            Total Price: <strong>US${data?.totalPrice}</strong>
+            Total Price: <strong>US${totalPrice}</strong>
           </h5>
         </div>
         <br />
