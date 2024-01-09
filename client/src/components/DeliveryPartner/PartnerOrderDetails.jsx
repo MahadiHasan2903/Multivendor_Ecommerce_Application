@@ -75,6 +75,18 @@ const PartnerOrderDetails = () => {
       toast.error(error.response.data.message);
     }
   };
+  const calculateTotalPrice = () => {
+    if (!data || !data.cart) return 0;
+
+    const totalPrice = data.cart
+      .map((item) => item.discountPrice * item.qty)
+      .reduce((acc, curr) => acc + curr, 0);
+
+    return totalPrice;
+  };
+
+  // Use the calculated total price
+  const totalPrice = calculateTotalPrice();
 
   const columns = [
     { field: "name", headerName: "Deliveryman Name", flex: 1 },
@@ -106,8 +118,6 @@ const PartnerOrderDetails = () => {
     phone: deliveryman.phoneNumber,
     address: deliveryman.address,
   }));
-
-  // console.log(data?.status);
 
   return (
     <div className="flex flex-col justify-between mx-5 800px:flex-row">
@@ -157,7 +167,7 @@ const PartnerOrderDetails = () => {
 
         <div className="w-full text-right border-t">
           <h5 className="pt-3 text-[18px]">
-            Total Price: <strong>US${data?.totalPrice}</strong>
+            Total Price: <strong>US${totalPrice}</strong>
           </h5>
         </div>
         <br />
