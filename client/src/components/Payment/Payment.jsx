@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PaymentInfo from "./PaymentInfo";
 import CartData from "./CartData";
 import { useSelector } from "react-redux";
@@ -22,6 +22,7 @@ const Payment = () => {
 
   useEffect(() => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));
+    console.log(orderData);
     setOrderData(orderData);
   }, []);
 
@@ -120,7 +121,7 @@ const Payment = () => {
       console.log(config);
 
       const { data } = await axios.post(
-        `${server}/payment/process`,
+        `${server}/payment/payment-process`,
         paymentData,
         config
       );

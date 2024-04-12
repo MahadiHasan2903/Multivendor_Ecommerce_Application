@@ -30,9 +30,12 @@ const Singup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(name, email, password);
+
     axios
       .post(`${server}/user/create-user`, { name, email, password, avatar })
       .then((res) => {
+        console.log("res", res);
         toast.success(res.data.message);
         navigate("/login");
         setName("");

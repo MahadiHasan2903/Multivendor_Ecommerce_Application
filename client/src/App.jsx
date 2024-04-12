@@ -81,9 +81,12 @@ function App() {
   const [stripeApikey, setStripeApiKey] = useState("");
 
   async function getStripeApikey() {
-    const { data } = await axios.get(`${server}/payment/stripeapikey`);
+    const { data } = await axios.get(`${server}/payment/payment-stripeapikey`);
+
     setStripeApiKey(data.stripeApikey);
   }
+
+  console.log("stripeApikey", stripeApikey);
 
   useEffect(() => {
     Store.dispatch(loadUser());

@@ -16,11 +16,15 @@ const cloudinary = require("cloudinary").v2;
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {
     const { name, email, password, avatar } = req.body;
+    console.log("req", req.body);
+
     const userEmail = await User.findOne({ email });
 
     if (userEmail) {
       return next(new ErrorHandler("User already exists", 400));
     }
+
+    console.log("userEmail", userEmail);
 
     const myCloud = await cloudinary.uploader.upload(avatar, {
       folder: "avatars",
@@ -35,6 +39,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
         url: myCloud.secure_url,
       },
     });
+    console.log("newUser".newUser);
 
     await newUser.save();
 
@@ -43,6 +48,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
       message: `Registration Successful`,
     });
   } catch (error) {
+    console.log(error);
     return next(new ErrorHandler(error.message, 400));
   }
 });
