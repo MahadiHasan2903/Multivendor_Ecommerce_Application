@@ -1,4 +1,4 @@
-//Development Mode
+// // Development Mode
 // export const server = "http://localhost:8080/api/v1";
 // export const ENDPOINT = "http://localhost:4000/";
 
